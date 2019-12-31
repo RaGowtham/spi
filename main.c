@@ -65,7 +65,6 @@ int main(int argc, char *argv[]) {
       printf("SPISetup failed:\n");
     }
 
-    // JEDEC IDの取得テスト
     // JEDEC ID Get
     W25Q64_readManufacturer(buf);
     printf("JEDEC ID : ");
@@ -74,7 +73,6 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
     
-    // Unique IDの取得テスト
     // Unique ID Get
     W25Q64_readUniqieID(buf);
     printf("Unique ID : ");
@@ -83,21 +81,18 @@ int main(int argc, char *argv[]) {
     }
     printf("\n");
     
-    // データの読み込み(アドレス0から256バイト取得)
     // Read 256 byte data from Address=0
     memset(buf,0,256);
     n =  W25Q64_read(0, buf, 256);
     printf("Read Data: n=%d\n",n);
     dump(buf,256);
 
-    // 高速データの読み込み(アドレス0から256バイト取得)
     // First read 256 byte data from Address=0
     memset(buf,0,256);
     n =  W25Q64_fastread(0, buf, 256);
     printf("Fast Read Data: n=%d\n",n);
     dump(buf,256);
 
-    // セクタ単位の削除
     // Erase data by Sector
     n = W25Q64_eraseSector(0,true);
     printf("Erase Sector(0): n=%d\n",n);
@@ -105,7 +100,6 @@ int main(int argc, char *argv[]) {
     n =  W25Q64_read (0, buf, 256);
     dump(buf,256);
  
-    // データ書き込みテスト
     // Write data to Sector=0 Address=10
     for (i=0; i < 26;i++) {
       wdata[i]='A'+i; // A-Z     
@@ -113,14 +107,12 @@ int main(int argc, char *argv[]) {
     n =  W25Q64_pageWrite(0, 10, wdata, 26);
     printf("page_write(0,10,d,26): n=%d\n",n);
 
-    // データの読み込み(アドレス0から256バイト取得)
     // Read 256 byte data from Address=0
     memset(buf,0,256);
     n =  W25Q64_read(0, buf, 256);
     printf("Read Data: n=%d\n",n);
     dump(buf,256);
 
-    // データ書き込みテスト
     // Write data to Sector=0 Address=0
     for (i=0; i < 10;i++) {
       wdata[i]='0'+i; // 0-9     
@@ -128,19 +120,16 @@ int main(int argc, char *argv[]) {
     n =  W25Q64_pageWrite(0, 0, wdata, 10);
     printf("page_write(0,0,d,10): n=%d\n",n);
 
-    // 高速データの読み込み(アドレス0から256バイト取得)
     // First read 256 byte data from Address=0
     memset(buf,0,256);
     n =  W25Q64_fastread(0,buf, 256);
     printf("Fast Read Data: n=%d\n",n);
     dump(buf,256);
 
-    // ステータスレジスタ1の取得
     // Get fron Status Register1
     buf[0] = W25Q64_readStatusReg1();
     printf("Status Register-1: %x\n",buf[0]);
 
-    // ステータスレジスタ2の取得
     // Get fron Status Register2
     buf[0] = W25Q64_readStatusReg2();
     printf("Status Register-2: %x\n",buf[0]);

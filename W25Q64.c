@@ -90,7 +90,7 @@ int wiringPiSPISetup(char *device, int speed, int mode)
 	lspeed[_spich] = speed;
 	fds[_spich] = fd;
 
-	return _spich++;
+	return _spich;
 }
 
 int wiringPiSPIDataRW(int channel, unsigned char *data, int len)
@@ -103,7 +103,7 @@ int wiringPiSPIDataRW(int channel, unsigned char *data, int len)
 	spi.rx_buf = (unsigned long)data;
 	spi.len = len;
 	spi.delay_usecs = 0;
-	spi.speed_hz = lspeed[channel];
+	spi.speed_hz = 2000000;
 	spi.bits_per_word = 8;
 
 	return ioctl(fds[channel], SPI_IOC_MESSAGE(1), &spi);
